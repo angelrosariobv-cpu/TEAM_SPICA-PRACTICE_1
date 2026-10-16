@@ -39,7 +39,7 @@ def update_task(task_id: int, payload: TaskUpdate):
     task.update(payload.model_dump(exclude_unset=True))
     return task
 
-router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_task(task_id: int):
     if task_id not in filler_db:
         raise HTTPException(status_code=404, detail="Task not found")

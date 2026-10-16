@@ -13,6 +13,8 @@ pydantic==2.14.1
 pydantic_core==2.50.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.4
+SQLAlchemy==2.0.46
+psycopg[binary]==3.2.10
 PyYAML==6.0.3
 six==1.17.0
 starlette==1.8.0
