@@ -10,7 +10,7 @@ class FlightBase(BaseModel):
     destination: str = Field(min_length=3, max_length=3)
     status: str = Field(min_length=1, max_length=20)
     scheduled_time: str = Field(min_length=1, max_length=30)
-    delay_minutes: int = Field(default=0)
+    delay_minutes: int = Field(default=0, ge=0)
     airline: str = Field(min_length=1, max_length=100)
 
     @field_validator("origin", "destination")
@@ -38,8 +38,23 @@ class FlightUpdate(BaseModel):
     destination: str | None = Field(default=None, min_length=3, max_length=3)
     status: str | None = Field(default=None, min_length=1, max_length=20)
     scheduled_time: str | None = Field(default=None, min_length=1, max_length=30)
-    delay_minutes: int | None = Field(default=None)
+    delay_minutes: int | None = Field(default=None, ge=0)
     airline: str | None = Field(default=None, min_length=1, max_length=100)
+
+    @field_validator("origin", "destination")
+    @classmethod
+    def airport_code_uppercase(cls, value: str | None) -> str | None:
+        return value.strip().upper() if value is not None else None
+
+    @field_validator("status")
+    @classmethod
+    def valid_status(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip().lower()
+        if value not in VALID_STATUSES:
+            raise ValueError(f"status must be one of: {', '.join(sorted(VALID_STATUSES))}")
+        return value
 
 
 class FlightResponse(FlightBase):

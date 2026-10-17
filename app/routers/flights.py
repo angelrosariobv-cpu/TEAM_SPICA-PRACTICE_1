@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.flight_schemas import FlightCreate, FlightResponse, FlightUpdate
+from app.schemas.flights import FlightCreate, FlightResponse, FlightUpdate
 from app.models import Flight
 
 router = APIRouter(prefix="/flights", tags=["Flights"])
@@ -39,7 +39,7 @@ def update_flight(flight_number: str, payload: FlightUpdate, db: Session = Depen
         raise HTTPException(status_code=404, detail="Flight not found")
     for field, value in payload.model_dump(exclude_unset=True).items():
         if value is not None:
-            setattr(flight, field, value.upper() if field in {"origin", "destination"} else value)
+            setattr(flight, field, value)
     db.commit()
     db.refresh(flight)
     return flight

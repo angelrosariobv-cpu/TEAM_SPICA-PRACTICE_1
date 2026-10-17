@@ -1,4 +1,45 @@
-# TEAM SPICA-PRACTICE 1 - HACKATHON COPA 2026
-Practice repository for Team Spica to prepare for the Copa Airlines Hackathon 2026
- 
-a change
+# Team Spica — Practice 1 | Flight Status API
+
+FastAPI backend for querying and updating flight statuses stored in an existing Azure PostgreSQL database.
+
+## Prerequisites
+- Python compatible with `requirements.txt`
+- Access to the existing Azure PostgreSQL database and its `public."PSA_flight_sta"` table
+
+## Local setup
+
+```bash
+python -m venv .venv
+# PowerShell: .\.venv\Scripts\Activate.ps1
+# Bash: source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Copy `.env.example` to `.env` and replace placeholder values. Never commit `.env`.
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Visit `/docs` for interactive API documentation.
+
+## Endpoints
+- `GET /health` — application liveness (does not check DB)
+- `GET /flights/` — list flights
+- `GET /flights/{flight_number}` — retrieve a flight
+- `POST /flights/` — create a flight
+- `PATCH /flights/{flight_number}` — update a flight
+- `DELETE /flights/{flight_number}` — delete a flight
+
+## Database contract
+The existing table, schema, primary key, and `scheduled_time` string storage are **unchanged**. This repository does not run schema creation at startup. If your Azure table differs from `app/models.py`, coordinate a change with the team before editing it.
+
+## Project structure
+- `app/main.py`: FastAPI setup and router registration
+- `app/database.py`: SQLAlchemy engine and sessions
+- `app/models.py`: mapping to the existing database table
+- `app/schemas/flights.py`: Pydantic request/response validation
+- `app/routers/flights.py`: flight API endpoints
+- `Docs/`: problem statement and sample dataset
+
+Practice-only task endpoints and redundant `run.py` entry point were removed from the deployable app.
