@@ -219,3 +219,6 @@ __marimo__/
 
 # DATABASE
 teamspica.postgres.database.azure.com
+
+# a lot
+node_modules
