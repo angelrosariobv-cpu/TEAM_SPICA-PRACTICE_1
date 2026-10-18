@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# DATABASE
+teamspica.postgres.database.azure.com
+
+# a lot
+node_modules
