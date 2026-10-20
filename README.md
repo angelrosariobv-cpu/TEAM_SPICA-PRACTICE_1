@@ -43,3 +43,12 @@ The existing table, schema, primary key, and `scheduled_time` string storage are
 - `Docs/`: problem statement and sample dataset
 
 Practice-only task endpoints and redundant `run.py` entry point were removed from the deployable app.
+
+backend innit
+uvicorn app.main:app --reload --app-dir backend
+http://127.0.0.1:8000
+ctrl + C to end
+
+frontend innit
+cd frontend
+npm run dev

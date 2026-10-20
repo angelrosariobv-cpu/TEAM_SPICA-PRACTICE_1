@@ -5,9 +5,13 @@ from fastapi import HTTPException
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from pathlib import Path
+
+# Ubicación del archivo backend/.env
+env_path = Path(__file__).resolve().parent.parent / ".env"
 
 # Carga las variables del archivo .env
-load_dotenv()
+load_dotenv(dotenv_path=env_path)
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -30,8 +34,8 @@ class Base(DeclarativeBase):
     pass
 
 
-# Dependencia para inyectar la sesión en los endpoints
 def get_db():
+
     if SessionLocal is None:
         raise HTTPException(
             status_code=503,
@@ -40,14 +44,19 @@ def get_db():
 
     try:
         with SessionLocal() as db:
-            # Comprueba la conexión antes de entregar la sesión
+
+            # Comprobar conexión con PostgreSQL
             from sqlalchemy import text
 
             db.execute(text("SELECT 1"))
+
+            # Entregar sesión al endpoint
             yield db
 
-    except SQLAlchemyError:
+    except SQLAlchemyError as e:
+        print(f"ERROR DE POSTGRESQL: {e}")
+
         raise HTTPException(
             status_code=503,
             detail="Database service is temporarily unavailable"
-        )
+        ) from e

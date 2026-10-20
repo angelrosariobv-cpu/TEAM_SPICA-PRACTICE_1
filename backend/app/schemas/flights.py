@@ -10,7 +10,7 @@ class FlightBase(BaseModel):
     destination: str = Field(min_length=3, max_length=3)
     status: str = Field(min_length=1, max_length=20)
     scheduled_time: str = Field(min_length=1, max_length=30)
-    delay_minutes: int = Field(default=0, ge=0)
+    delay_minutes: int = Field(default=0)
     airline: str = Field(min_length=1, max_length=100)
 
     @field_validator("origin", "destination")
@@ -38,7 +38,7 @@ class FlightUpdate(BaseModel):
     destination: str | None = Field(default=None, min_length=3, max_length=3)
     status: str | None = Field(default=None, min_length=1, max_length=20)
     scheduled_time: str | None = Field(default=None, min_length=1, max_length=30)
-    delay_minutes: int | None = Field(default=None, ge=0)
+    delay_minutes: int | None = Field(default=None)
     airline: str | None = Field(default=None, min_length=1, max_length=100)
 
     @field_validator("origin", "destination")

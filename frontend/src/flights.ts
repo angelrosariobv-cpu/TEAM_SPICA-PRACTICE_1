@@ -24,7 +24,7 @@ function parseFlight(value: unknown): Flight {
   if (!value || typeof value !== 'object') throw new ApiError('Respuesta de vuelo inválida.')
   const flight = value as Record<string, unknown>
   if (['flight_number', 'origin', 'destination', 'scheduled_time', 'airline'].some(key => typeof flight[key] !== 'string' || !flight[key]) ||
-      !statuses.includes(flight.status as FlightStatus) || !Number.isInteger(flight.delay_minutes) || Number(flight.delay_minutes) < 0) {
+      !statuses.includes(flight.status as FlightStatus) || !Number.isInteger(flight.delay_minutes)) {
     throw new ApiError('El servicio devolvió una respuesta inesperada. Intente nuevamente.')
   }
   return flight as Flight
