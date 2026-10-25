@@ -8,20 +8,27 @@ FastAPI backend for querying and updating flight statuses stored in an existing 
 
 ## Local setup
 
+The commands below start from the repository root.
+
 ```bash
 python -m venv .venv
-# PowerShell: .\.venv\Scripts\Activate.ps1
-# Bash: source .venv/bin/activate
-pip install -r requirements.txt
+# PowerShell:
+.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+# Bash:
+./.venv/bin/python -m pip install -r backend/requirements.txt
 ```
 
-Copy `.env.example` to `.env` and replace placeholder values. Never commit `.env`.
+Copy `backend/.env.example` to `backend/.env` and replace the placeholder
+values. Never commit `.env`.
 
 ```bash
-uvicorn app.main:app --reload
+# PowerShell:
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --app-dir backend
+# Bash:
+./.venv/bin/python -m uvicorn app.main:app --reload --app-dir backend
 ```
 
-Visit `/docs` for interactive API documentation.
+Visit <http://127.0.0.1:8000/docs> for interactive API documentation.
 
 ## Endpoints
 - `GET /health` — application liveness (does not check DB)
@@ -44,11 +51,25 @@ The existing table, schema, primary key, and `scheduled_time` string storage are
 
 Practice-only task endpoints and redundant `run.py` entry point were removed from the deployable app.
 
-backend innit
-uvicorn app.main:app --reload --app-dir backend
-http://127.0.0.1:8000
-ctrl + C to end
+### Backend quick start
 
-frontend innit
+From the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --app-dir backend
+```
+
+The API is available at <http://127.0.0.1:8000>. Stop it with `Ctrl+C`.
+
+### Frontend quick start
+
+In a second terminal:
+
+```powershell
 cd frontend
-npm run dev
+npm.cmd ci
+npm.cmd run dev
+```
+
+The frontend is available at <http://127.0.0.1:5173>. On Bash, use `npm`
+instead of `npm.cmd`.
