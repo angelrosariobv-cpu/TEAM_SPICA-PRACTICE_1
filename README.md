@@ -55,8 +55,8 @@ Practice-only task endpoints and redundant `run.py` entry point were removed fro
 
 From the repository root:
 
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --app-dir backend
+```gitbash
+python -m uvicorn app.main:app --reload
 ```
 
 The API is available at <http://127.0.0.1:8000>. Stop it with `Ctrl+C`.
